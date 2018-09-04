@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -24,26 +26,21 @@ class MainActivity : AppCompatActivity() {
             startActivity(addIntent)
         }
 
-        //Realm Fun
+    }
 
+    //if i had the Realm Fun code block on create it would run only 1 time.But onResume it runs everytime i open the activity
+    override fun onResume() {
+        super.onResume()
+        //Realm Fun
         val realm=Realm.getDefaultInstance()
 
-        realm.beginTransaction() //BEGIN Realm
-
-        var myDawg= realm.createObject(Dog::class.java)
-        myDawg.name="Azor"
-        myDawg.age=14
-
-        realm.commitTransaction() //END Realm
-
-        //Create a query object
-        val query =realm.where(Dog::class.java)
+        //Create a query object for realm
+        val query =realm.where(ToDoItem::class.java)
         val results = query.findAll()
 
-        for(dog in results){
-            println(dog.name)
-        }
-
+        val listView=findViewById<ListView>(R.id.toDoListView)
+        val adapter= ArrayAdapter(this,android.R.layout.simple_list_item_1,results)
+        listView.adapter=adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
