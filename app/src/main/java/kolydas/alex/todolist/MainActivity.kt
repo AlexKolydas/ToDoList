@@ -6,6 +6,9 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import io.realm.Realm
+import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,6 +23,27 @@ class MainActivity : AppCompatActivity() {
             var addIntent = Intent(this,AddToDoActivity::class.java)
             startActivity(addIntent)
         }
+
+        //Realm Fun
+
+        val realm=Realm.getDefaultInstance()
+
+        realm.beginTransaction() //BEGIN Realm
+
+        var myDawg= realm.createObject(Dog::class.java)
+        myDawg.name="Azor"
+        myDawg.age=14
+
+        realm.commitTransaction() //END Realm
+
+        //Create a query object
+        val query =realm.where(Dog::class.java)
+        val results = query.findAll()
+
+        for(dog in results){
+            println(dog.name)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
