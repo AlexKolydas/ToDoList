@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //if i had the Realm Fun code block on create it would run only 1 time.But onResume it runs everytime i open the activity
+    //if i had the Realm Fun code block in oncreate() it would run only 1 time.But onResume() it runs everytime i open the activity
     override fun onResume() {
         super.onResume()
         //Realm Fun
@@ -39,6 +39,14 @@ class MainActivity : AppCompatActivity() {
         val results = query.findAll()
 
         val listView=findViewById<ListView>(R.id.toDoListView)
+
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val selectedToDo =results[position]
+            val finishIntent=Intent(this,FinishActivity::class.java)
+            finishIntent.putExtra("toDoItem",selectedToDo!!.getId())
+            startActivity(finishIntent)
+        }
+
         val adapter= ArrayAdapter(this,android.R.layout.simple_list_item_1,results)
         listView.adapter=adapter
     }
