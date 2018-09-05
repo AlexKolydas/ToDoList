@@ -1,5 +1,6 @@
 package kolydas.alex.todolist
 
+import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -24,6 +25,12 @@ class FinishActivity : AppCompatActivity() {
 
         val textView= findViewById<TextView>(R.id.toDoNameTextView)
         textView.text=toDoItem!!.name
+
+        //show bold string if it's important
+        if(toDoItem.important)
+        {
+            textView.typeface = Typeface.DEFAULT_BOLD
+        }
 
         val completeBtn=findViewById<Button>(R.id.completeBtn)
 
